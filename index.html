@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        background-color: #e6e6e6;
+        transition: background-color 0.5s ease;
+      }
+
+      .container {
+        width: 100%;
+        min-height: 100vh;
+        background: url('download.jpeg') no-repeat center center/cover;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+          rgba(0, 0, 0, 0.418) 0px 30px 60px -30px,
+          rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+      }
+
+      .container h1 {
+        color: #fff;
+        font-weight: 700;
+        font-size: 32px;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .converter-columns {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        font-family: cursive;
+        font-style: italic;
+      }
+
+      .converter-columns:hover {
+        transform: scale(1.05);
+      }
+
+      .col {
+        text-align: center;
+        position: relative;
+        margin: 0 20px;
+      }
+
+      .col label {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #333;
+      }
+
+      .col input {
+        width: 100%;
+        padding: 10px;
+        background: #f5f5f5;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 16px;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .col i {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0.5;
+        transition: opacity 0.3s ease-in-out;
+        color: #333;
+      }
+
+      .col:hover i {
+        opacity: 1;
+        transform: scale(1.2);
+        transition: 0.4s;
+      }
+
+      .col:hover input {
+        background-color: #e0e0e0;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+      }
+
+      @media screen and (max-width: 768px) {
+        .col {
+          flex-basis: calc(50% - 20px);
+          margin: 10px 0;
+        }
+        .converter-columns {
+          flex-direction: column;
+        }
+      }
+
+      @keyframes slideInRight {
+        from {
+          transform: translateX(180%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      .slideInRight {
+        animation: slideInRight 1.2s;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="text" draggable="true">
+        <h1>
+          Temperature Converter
+          <i style="color: #e25822" class="fas fa-thermometer-half"></i>
+        </h1>
+      </div>
+      <div class="converter-columns slideInRight" draggable="true">
+        <div class="col">
+          <label>Celsius</label>
+          <input type="number" id="celsius" />
+          <i class="fas fa-thermometer-half"></i>
+        </div>
+        <div class="col">
+          <label>Fahrenheit</label>
+          <input type="number" id="fahrenheit" />
+          <i class="fas fa-temperature-high"></i>
+        </div>
+        <div class="col">
+          <label>Kelvin</label>
+          <input type="number" id="kelvin" />
+          <i class="fas fa-thermometer-full"></i>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let celsius = document.getElementById('celsius')
+      let fahrenheit = document.getElementById('fahrenheit')
+      let kelvin = document.getElementById('kelvin')
+
+      celsius.oninput = function () {
+        let f = (parseFloat(celsius.value) * 9) / 5 + 32
+        fahrenheit.value = parseFloat(f.toFixed(2))
+
+        let k = parseFloat(celsius.value) + 273.15
+        kelvin.value = parseFloat(k.toFixed(2))
+      }
+
+      fahrenheit.oninput = function () {
+        let c = ((parseFloat(fahrenheit.value) - 32) * 5) / 9
+        celsius.value = parseFloat(c.toFixed(2))
+
+        let k = ((parseFloat(fahrenheit.value) - 32) * 5) / 9 + 273.15
+        kelvin.value = parseFloat(k.toFixed(2))
+      }
+
+      kelvin.oninput = function () {
+        let f = ((parseFloat(kelvin.value) - 273.15) * 9) / 5 + 32
+        fahrenheit.value = parseFloat(f.toFixed(2))
+
+        let c = parseFloat(kelvin.value) - 273.15
+        celsius.value = parseFloat(c.toFixed(2))
+      }
+    </script>
+  </body>
+</html>
